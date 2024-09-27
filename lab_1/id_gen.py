@@ -6,20 +6,20 @@ import cv2
 import sys
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(799, 594)
+class UiForm(object):
+    def setup_ui(self, form):
+        form.setObjectName("form")
+        form.resize(799, 594)
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
-        Form.setFont(font)
-        Form.setStyleSheet("QWidget{\n"
+        form.setFont(font)
+        form.setStyleSheet("QWidget{\n"
                            "background:rgb(85, 170, 255);\n"
                            "\n"
                            "}")
-        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton = QtWidgets.QPushButton(form)
         self.pushButton.setGeometry(QtCore.QRect(460, 30, 151, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -42,7 +42,7 @@ class Ui_Form(object):
                                       "}")
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setObjectName("pushButton_2")
-        self.label = QtWidgets.QLabel(Form)
+        self.label = QtWidgets.QLabel(form)
         self.label.setGeometry(QtCore.QRect(190, 30, 251, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -50,7 +50,7 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(Form)
+        self.label_2 = QtWidgets.QLabel(form)
         self.label_2.setGeometry(QtCore.QRect(70, 150, 201, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -58,7 +58,7 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
-        self.label_3 = QtWidgets.QLabel(Form)
+        self.label_3 = QtWidgets.QLabel(form)
         self.label_3.setGeometry(QtCore.QRect(70, 230, 181, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -66,7 +66,7 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label_3.setFont(font)
         self.label_3.setObjectName("label_3")
-        self.label_4 = QtWidgets.QLabel(Form)
+        self.label_4 = QtWidgets.QLabel(form)
         self.label_4.setGeometry(QtCore.QRect(70, 310, 161, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -74,7 +74,7 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label_4.setFont(font)
         self.label_4.setObjectName("label_4")
-        self.label_5 = QtWidgets.QLabel(Form)
+        self.label_5 = QtWidgets.QLabel(form)
         self.label_5.setGeometry(QtCore.QRect(70, 390, 171, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -82,7 +82,7 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label_5.setFont(font)
         self.label_5.setObjectName("label_5")
-        self.label_6 = QtWidgets.QLabel(Form)
+        self.label_6 = QtWidgets.QLabel(form)
         self.label_6.setGeometry(QtCore.QRect(70, 490, 231, 21))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -90,42 +90,42 @@ class Ui_Form(object):
         font.setWeight(75)
         self.label_6.setFont(font)
         self.label_6.setObjectName("label_6")
-        self.lineEdit = QtWidgets.QLineEdit(Form)
+        self.lineEdit = QtWidgets.QLineEdit(form)
         self.lineEdit.setGeometry(QtCore.QRect(360, 140, 381, 31))
         self.lineEdit.setStyleSheet("QLineEdit{\n"
                                     "\n"
                                     "background:white;\n"
                                     "}")
         self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_2 = QtWidgets.QLineEdit(form)
         self.lineEdit_2.setGeometry(QtCore.QRect(360, 220, 381, 31))
         self.lineEdit_2.setStyleSheet("QLineEdit{\n"
                                       "\n"
                                       "background:white;\n"
                                       "}")
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.lineEdit_3 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_3 = QtWidgets.QLineEdit(form)
         self.lineEdit_3.setGeometry(QtCore.QRect(360, 300, 381, 31))
         self.lineEdit_3.setStyleSheet("QLineEdit{\n"
                                       "\n"
                                       "background:white;\n"
                                       "}")
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.lineEdit_4 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_4 = QtWidgets.QLineEdit(form)
         self.lineEdit_4.setGeometry(QtCore.QRect(360, 390, 381, 31))
         self.lineEdit_4.setStyleSheet("QLineEdit{\n"
                                       "\n"
                                       "background:white;\n"
                                       "}")
         self.lineEdit_4.setObjectName("lineEdit_4")
-        self.lineEdit_5 = QtWidgets.QLineEdit(Form)
+        self.lineEdit_5 = QtWidgets.QLineEdit(form)
         self.lineEdit_5.setGeometry(QtCore.QRect(360, 480, 381, 31))
         self.lineEdit_5.setStyleSheet("QLineEdit{\n"
                                       "\n"
                                       "background:white;\n"
                                       "}")
         self.lineEdit_5.setObjectName("lineEdit_5")
-        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2 = QtWidgets.QPushButton(form)
         self.pushButton_2.setGeometry(QtCore.QRect(260, 540, 271, 41))
         font = QtGui.QFont()
         font.setPointSize(12)
@@ -148,8 +148,8 @@ class Ui_Form(object):
                                         "}")
         self.pushButton_2.setObjectName("pushButton_2")
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslate_ui(form)
+        QtCore.QMetaObject.connectSlotsByName(form)
 
     def capture(self):
 
@@ -233,23 +233,23 @@ class Ui_Form(object):
         til.save(name + '.png')
         self.hide()
 
-    def retranslateUi(self, Form):
+    def retranslate_ui(self, form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton.setText(_translate("Form", "Capture Image"))
-        self.label.setText(_translate("Form", "Capture Your Image "))
-        self.label_2.setText(_translate("Form", "Your Company Name"))
-        self.label_3.setText(_translate("Form", "Your Full Name"))
-        self.label_4.setText(_translate("Form", "Your Gender"))
-        self.label_5.setText(_translate("Form", "Your Current Adress"))
-        self.label_6.setText(_translate("Form", "Your Active Phone Number"))
-        self.pushButton_2.setText(_translate("Form", "Generate Id Card"))
+        form.setWindowTitle(_translate("form", "form"))
+        self.pushButton.setText(_translate("form", "Capture Image"))
+        self.label.setText(_translate("form", "Capture Your Image "))
+        self.label_2.setText(_translate("form", "Your Company Name"))
+        self.label_3.setText(_translate("form", "Your Full Name"))
+        self.label_4.setText(_translate("form", "Your Gender"))
+        self.label_5.setText(_translate("form", "Your Current Adress"))
+        self.label_6.setText(_translate("form", "Your Active Phone Number"))
+        self.pushButton_2.setText(_translate("form", "Generate Id Card"))
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    form = QtWidgets.QWidget()
+    ui = UiForm()
+    ui.setup_ui(form)
+    form.show()
     sys.exit(app.exec_())

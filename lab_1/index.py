@@ -9,7 +9,7 @@ ui, _ = loadUiType('id_gen.ui')
 class MainApp(QMainWindow, ui):
     def __init__(self):
         QMainWindow.__init__(self)
-        self.setupUi(self)
+        self.setup_ui(self)
 
 
 def main():
