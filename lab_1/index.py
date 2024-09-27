@@ -5,13 +5,13 @@ import sys
 from PyQt5.uic import loadUiType
 
 
-ui,_ = loadUiType('id_gen.ui')
+ui, _ = loadUiType('id_gen.ui')
 
-class MainApp(QMainWindow , ui):
+
+class MainApp(QMainWindow, ui):
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupUi(self)
-
 
 
 def main():

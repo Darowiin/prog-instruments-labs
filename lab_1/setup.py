@@ -14,7 +14,7 @@ packages = ["idna"]
 options = {
     'build_exe': {
 
-        'packages':packages,
+        'packages': packages,
     },
 
 }

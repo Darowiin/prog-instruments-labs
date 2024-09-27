@@ -4,7 +4,9 @@ import random
 import datetime
 import qrcode
 import cv2
-import sys 
+import sys
+
+
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -39,8 +41,7 @@ class Ui_Form(object):
 "background:black;\n"
 "color:white;\n"
 "}")
-        self.pushButton.setObjectName("pushButton")
-        
+        self.pushButton.setObjectName("pushButton")        
         self.pushButton.setObjectName("pushButton_2")
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(190, 30, 251, 41))
@@ -157,7 +158,7 @@ class Ui_Form(object):
         while True:
             return_value,image = camera.read()
             image= cv2.flip(image,1)
-    #gray = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+        # gray = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
             cv2.imshow('image',image)
             if cv2.waitKey(1)==13:
                 height , width = image.shape[:2]
@@ -169,15 +170,14 @@ class Ui_Form(object):
         camera.release()
         cv2.destroyAllWindows()
 
-
     def generate_idcard(self):
         # Generating Blank White Image
         image = Image.new('RGB', (1000,900), (255, 255, 255))
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype('arial.ttf', size=45)
 
-
-        date = datetime.datetime.now() #getting time and date at the runtime
+        # getting time and date at the runtime
+        date = datetime.datetime.now()
 
         (x, y) = (50, 50)
         message = self.lineEdit.text()
@@ -186,59 +186,43 @@ class Ui_Form(object):
         font = ImageFont.truetype('arial.ttf', size=80)
         draw.text((x, y), message, fill=color, font=font)
 
-
-
-        #generating ID NO randomly You can also ask user to enter 
+        # generating ID NO randomly You can also ask user to enter
         (x, y) = (50, 350)
         id_no = random.randint(1000000,9000000)
         message = str('ID '+str(id_no))
         font = ImageFont.truetype('arial.ttf', size=60)
-        color = 'rgb(255, 0, 0)' # color 
+        color = 'rgb(255, 0, 0)'  # color
         draw.text((x,y),message ,fill=color,font=font)
-
 
         # Asking user Full name
         (x, y) = (50, 250)
         message = self.lineEdit_2.text()
         name=message
-        color = 'rgb(0, 0, 0)' # black color
+        color = 'rgb(0, 0, 0)'  # black color
         font = ImageFont.truetype('arial.ttf', size=45)
         draw.text((x, y), message, fill=color, font=font)
-
-
-
-
-        
 
         # Asking about user gender
         (x, y) = (50, 550)
         message = self.lineEdit_3.text()
-        color = 'rgb(0, 0, 0)' # black color 
+        color = 'rgb(0, 0, 0)'  # black color
         draw.text((x, y), message, fill=color, font=font)
-
 
         # Asking User about his phone number
         (x, y) = (50, 650)
         message = self.lineEdit_5.text()
         temp=message
-        color = 'rgb(0, 0, 0)' # black color 
+        color = 'rgb(0, 0, 0)'  # black color
         draw.text((x, y), message, fill=color, font=font)
-
-
 
         # Asking user about his Adress
         (x, y) = (50, 750)
         message = self.lineEdit_4.text()
-        color = 'rgb(0, 0, 0)' # black color 
+        color = 'rgb(0, 0, 0)'  # black color
         draw.text((x, y), message, fill=color, font=font)
 
-
-
-
         # save the edited image
- 
         image.save(str(name)+'.png')
-
 
         # pasting person image taken by camera on card image
         card_image=Image.open(name+'.png')
@@ -249,12 +233,10 @@ class Ui_Form(object):
         img.save(str(id_no)+'.bmp')
 
         til = Image.open('card.jpg')
-        im = Image.open(str(id_no)+'.bmp') #25x25
+        im = Image.open(str(id_no)+'.bmp')  # 25x25
         til.paste(im,(600,400))
         til.save(name+'.png')
         self.hide()
-
-
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -267,6 +249,7 @@ class Ui_Form(object):
         self.label_5.setText(_translate("Form", "Your Current Adress"))
         self.label_6.setText(_translate("Form", "Your Active Phone Number"))
         self.pushButton_2.setText(_translate("Form", "Generate Id Card"))
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
