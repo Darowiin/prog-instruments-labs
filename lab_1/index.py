@@ -1,8 +1,6 @@
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUiType
+import sys
 
 
 ui, _ = loadUiType('id_gen.ui')

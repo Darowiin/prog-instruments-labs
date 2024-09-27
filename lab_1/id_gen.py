@@ -41,7 +41,7 @@ class Ui_Form(object):
 "background:black;\n"
 "color:white;\n"
 "}")
-        self.pushButton.setObjectName("pushButton")        
+        self.pushButton.setObjectName("pushButton")
         self.pushButton.setObjectName("pushButton_2")
         self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(190, 30, 251, 41))
@@ -156,23 +156,23 @@ class Ui_Form(object):
 
         camera = cv2.VideoCapture(0)
         while True:
-            return_value,image = camera.read()
-            image= cv2.flip(image,1)
+            return_value, image = camera.read()
+            image = cv2.flip(image, 1)
         # gray = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-            cv2.imshow('image',image)
-            if cv2.waitKey(1)==13:
-                height , width = image.shape[:2]
-                start_row,start_col = int(height*.25), int(width*.25)
-                end_row,end_col = int(height*.80), int(width*.80)
-                cropped_img = image[start_row:end_row,start_col:end_col]
-                cv2.imwrite('person.jpg',cropped_img)
+            cv2.imshow('image', image)
+            if cv2.waitKey(1) == 13:
+                height, width = image.shape[:2]
+                start_row, start_col = int(height*.25), int(width*.25)
+                end_row, end_col = int(height*.80), int(width*.80)
+                cropped_img = image[start_row:end_row, start_col:end_col]
+                cv2.imwrite('person.jpg', cropped_img)
                 break
         camera.release()
         cv2.destroyAllWindows()
 
     def generate_idcard(self):
         # Generating Blank White Image
-        image = Image.new('RGB', (1000,900), (255, 255, 255))
+        image = Image.new('RGB', (1000, 900), (255, 255, 255))
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype('arial.ttf', size=45)
 
@@ -181,23 +181,23 @@ class Ui_Form(object):
 
         (x, y) = (50, 50)
         message = self.lineEdit.text()
-        company=message
+        company = message
         color = 'rgb(0, 0, 0)'
         font = ImageFont.truetype('arial.ttf', size=80)
         draw.text((x, y), message, fill=color, font=font)
 
         # generating ID NO randomly You can also ask user to enter
         (x, y) = (50, 350)
-        id_no = random.randint(1000000,9000000)
-        message = str('ID '+str(id_no))
+        id_no = random.randint(1000000, 9000000)
+        message = str('ID ' + str(id_no))
         font = ImageFont.truetype('arial.ttf', size=60)
         color = 'rgb(255, 0, 0)'  # color
-        draw.text((x,y),message ,fill=color,font=font)
+        draw.text((x, y), message, fill=color, font=font)
 
         # Asking user Full name
         (x, y) = (50, 250)
         message = self.lineEdit_2.text()
-        name=message
+        name = message
         color = 'rgb(0, 0, 0)'  # black color
         font = ImageFont.truetype('arial.ttf', size=45)
         draw.text((x, y), message, fill=color, font=font)
@@ -211,7 +211,7 @@ class Ui_Form(object):
         # Asking User about his phone number
         (x, y) = (50, 650)
         message = self.lineEdit_5.text()
-        temp=message
+        temp = message
         color = 'rgb(0, 0, 0)'  # black color
         draw.text((x, y), message, fill=color, font=font)
 
@@ -222,20 +222,20 @@ class Ui_Form(object):
         draw.text((x, y), message, fill=color, font=font)
 
         # save the edited image
-        image.save(str(name)+'.png')
+        image.save(str(name) + '.png')
 
         # pasting person image taken by camera on card image
-        card_image=Image.open(name+'.png')
-        person_image= Image.open('person.jpg','r')
-        card_image.paste(person_image,(600,75))
+        card_image = Image.open(name + '.png')
+        person_image = Image.open('person.jpg', 'r')
+        card_image.paste(person_image, (600, 75))
         card_image.save("card.jpg")
-        img = qrcode.make(str(company)+str(id_no))   # this info. is added in QR code, also add other things
-        img.save(str(id_no)+'.bmp')
+        img = qrcode.make(str(company) + str(id_no))   # this info. is added in QR code, also add other things
+        img.save(str(id_no) + '.bmp')
 
         til = Image.open('card.jpg')
-        im = Image.open(str(id_no)+'.bmp')  # 25x25
-        til.paste(im,(600,400))
-        til.save(name+'.png')
+        im = Image.open(str(id_no) + '.bmp')  # 25x25
+        til.paste(im, (600, 400))
+        til.save(name + '.png')
         self.hide()
 
     def retranslateUi(self, Form):

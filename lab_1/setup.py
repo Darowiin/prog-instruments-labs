@@ -20,9 +20,9 @@ options = {
 }
 
 setup(
-    name = "id generator",
-    options = options,
-    version = "1.0",
-    description = 'any description',
-    executables = executables
+    name="id generator",
+    options=options,
+    version="1.0",
+    description='any description',
+    executables=executables
 )
