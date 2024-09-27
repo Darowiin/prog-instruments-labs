@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PIL import Image, ImageDraw, ImageFont
 import random
-import os
 import datetime
 import qrcode
 import cv2
@@ -270,7 +269,6 @@ class Ui_Form(object):
         self.pushButton_2.setText(_translate("Form", "Generate Id Card"))
 
 if __name__ == "__main__":
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
