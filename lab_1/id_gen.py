@@ -1,9 +1,10 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PIL import Image, ImageDraw, ImageFont
 import random
-import qrcode
-import cv2
 import sys
+
+import cv2
+from PIL import Image, ImageDraw, ImageFont
+from PyQt5 import QtCore, QtGui, QtWidgets
+import qrcode
 
 
 class UiForm(object):

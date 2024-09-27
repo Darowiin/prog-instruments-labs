@@ -1,6 +1,6 @@
+import sys
 
 from cx_Freeze import setup, Executable
-import sys
 
 base = None
 
