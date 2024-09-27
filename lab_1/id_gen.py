@@ -223,7 +223,8 @@ class Ui_Form(object):
         person_image = Image.open('person.jpg', 'r')
         card_image.paste(person_image, (600, 75))
         card_image.save("card.jpg")
-        img = qrcode.make(str(company) + str(id_no))   # this info. is added in QR code, also add other things
+        # this info. is added in QR code, also add other things
+        img = qrcode.make(str(company) + str(id_no))
         img.save(str(id_no) + '.bmp')
 
         til = Image.open('card.jpg')
