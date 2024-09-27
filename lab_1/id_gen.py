@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PIL import Image, ImageDraw, ImageFont
 import random
-import datetime
 import qrcode
 import cv2
 import sys
@@ -156,9 +155,8 @@ class Ui_Form(object):
 
         camera = cv2.VideoCapture(0)
         while True:
-            return_value, image = camera.read()
+            _, image = camera.read()
             image = cv2.flip(image, 1)
-        # gray = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
             cv2.imshow('image', image)
             if cv2.waitKey(1) == 13:
                 height, width = image.shape[:2]
@@ -175,9 +173,6 @@ class Ui_Form(object):
         image = Image.new('RGB', (1000, 900), (255, 255, 255))
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype('arial.ttf', size=45)
-
-        # getting time and date at the runtime
-        date = datetime.datetime.now()
 
         (x, y) = (50, 50)
         message = self.lineEdit.text()
@@ -211,7 +206,6 @@ class Ui_Form(object):
         # Asking User about his phone number
         (x, y) = (50, 650)
         message = self.lineEdit_5.text()
-        temp = message
         color = 'rgb(0, 0, 0)'  # black color
         draw.text((x, y), message, fill=color, font=font)
 
