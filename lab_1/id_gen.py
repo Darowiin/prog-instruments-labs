@@ -2,10 +2,30 @@ import random
 import sys
 
 import cv2
+import qrcode
 from PIL import Image, ImageDraw, ImageFont
 from PyQt5 import QtCore, QtGui, QtWidgets
-import qrcode
 
+PUSH_BUTTON_STYLE = """
+QPushButton{
+    border:3px solid black;
+    border-radius:15px;
+    background:blue;
+    color:white;
+}
+QPushButton:hover{
+    border:1px solid gray;
+    border-radius:15px;
+    background:black;
+    color:white;
+}
+"""
+
+LINE_EDIT_STYLE = """
+QLineEdit{
+    background:white;
+}
+"""
 
 class UiForm(object):
     """
@@ -38,19 +58,7 @@ class UiForm(object):
         font.setWeight(75)
         self.pushButton.setFont(font)
         self.pushButton.clicked.connect(self.capture)
-        self.pushButton.setStyleSheet("QPushButton{\n"
-                                      "border:3px solid black;\n"
-                                      "border-radius:15px;\n"
-                                      "background:blue;\n"
-                                      "color:white;\n"
-                                      "}\n"
-                                      "\n"
-                                      "QPushButton:hover{\n"
-                                      "border:1px solid gray;\n"
-                                      "border-radius:15px;\n"
-                                      "background:black;\n"
-                                      "color:white;\n"
-                                      "}")
+        self.pushButton.setStyleSheet(PUSH_BUTTON_STYLE)
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setObjectName("pushButton_2")
         self.label = QtWidgets.QLabel(form)
@@ -103,38 +111,23 @@ class UiForm(object):
         self.label_6.setObjectName("label_6")
         self.lineEdit = QtWidgets.QLineEdit(form)
         self.lineEdit.setGeometry(QtCore.QRect(360, 140, 381, 31))
-        self.lineEdit.setStyleSheet("QLineEdit{\n"
-                                    "\n"
-                                    "background:white;\n"
-                                    "}")
+        self.lineEdit.setStyleSheet(LINE_EDIT_STYLE)
         self.lineEdit.setObjectName("lineEdit")
         self.lineEdit_2 = QtWidgets.QLineEdit(form)
         self.lineEdit_2.setGeometry(QtCore.QRect(360, 220, 381, 31))
-        self.lineEdit_2.setStyleSheet("QLineEdit{\n"
-                                      "\n"
-                                      "background:white;\n"
-                                      "}")
+        self.lineEdit_2.setStyleSheet(LINE_EDIT_STYLE)
         self.lineEdit_2.setObjectName("lineEdit_2")
         self.lineEdit_3 = QtWidgets.QLineEdit(form)
         self.lineEdit_3.setGeometry(QtCore.QRect(360, 300, 381, 31))
-        self.lineEdit_3.setStyleSheet("QLineEdit{\n"
-                                      "\n"
-                                      "background:white;\n"
-                                      "}")
+        self.lineEdit_3.setStyleSheet(LINE_EDIT_STYLE)
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.lineEdit_4 = QtWidgets.QLineEdit(form)
         self.lineEdit_4.setGeometry(QtCore.QRect(360, 390, 381, 31))
-        self.lineEdit_4.setStyleSheet("QLineEdit{\n"
-                                      "\n"
-                                      "background:white;\n"
-                                      "}")
+        self.lineEdit_4.setStyleSheet(LINE_EDIT_STYLE)
         self.lineEdit_4.setObjectName("lineEdit_4")
         self.lineEdit_5 = QtWidgets.QLineEdit(form)
         self.lineEdit_5.setGeometry(QtCore.QRect(360, 480, 381, 31))
-        self.lineEdit_5.setStyleSheet("QLineEdit{\n"
-                                      "\n"
-                                      "background:white;\n"
-                                      "}")
+        self.lineEdit_5.setStyleSheet(LINE_EDIT_STYLE)
         self.lineEdit_5.setObjectName("lineEdit_5")
         self.pushButton_2 = QtWidgets.QPushButton(form)
         self.pushButton_2.setGeometry(QtCore.QRect(260, 540, 271, 41))
@@ -144,19 +137,7 @@ class UiForm(object):
         font.setWeight(75)
         self.pushButton_2.setFont(font)
         self.pushButton_2.clicked.connect(self.generate_idcard)
-        self.pushButton_2.setStyleSheet("QPushButton{\n"
-                                        "border:3px solid black;\n"
-                                        "border-radius:15px;\n"
-                                        "background:blue;\n"
-                                        "color:white;\n"
-                                        "}\n"
-                                        "\n"
-                                        "QPushButton:hover{\n"
-                                        "border:1px solid gray;\n"
-                                        "border-radius:15px;\n"
-                                        "background:black;\n"
-                                        "color:white;\n"
-                                        "}")
+        self.pushButton_2.setStyleSheet(PUSH_BUTTON_STYLE)
         self.pushButton_2.setObjectName("pushButton_2")
 
         self.retranslate_ui(form)
