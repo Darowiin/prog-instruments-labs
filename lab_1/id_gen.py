@@ -7,7 +7,17 @@ import sys
 
 
 class UiForm(object):
-    def setup_ui(self, form):
+    """
+    UI class responsible for setting up the form
+    and handling widget interactions.
+    """
+    def setup_ui(self, form: QtWidgets.QWidget) -> None:
+        """
+        Set up the UI components and layout of the form.
+
+        Args:
+            form (QtWidgets.QWidget): The form widget where the UI is set up.
+        """
         form.setObjectName("form")
         form.resize(799, 594)
         font = QtGui.QFont()
@@ -151,8 +161,11 @@ class UiForm(object):
         self.retranslate_ui(form)
         QtCore.QMetaObject.connectSlotsByName(form)
 
-    def capture(self):
-
+    def capture(self) -> None:
+        """
+        Capture an image using the webcam, crop it,
+        and save it as 'person.jpg'.
+        """
         camera = cv2.VideoCapture(0)
         while True:
             _, image = camera.read()
@@ -168,7 +181,11 @@ class UiForm(object):
         camera.release()
         cv2.destroyAllWindows()
 
-    def generate_idcard(self):
+    def generate_idcard(self) -> None:
+        """
+        Generate an ID card image using the input data and webcam photo.
+        This includes adding text, QR code, and saving the final card.
+        """
         # Generating Blank White Image
         image = Image.new('RGB', (1000, 900), (255, 255, 255))
         draw = ImageDraw.Draw(image)
@@ -233,7 +250,13 @@ class UiForm(object):
         til.save(name + '.png')
         self.hide()
 
-    def retranslate_ui(self, form):
+    def retranslate_ui(self, form: QtWidgets.QWidget) -> None:
+        """
+        Retranslate the UI to apply the text to the widgets.
+
+        Args:
+            form (QtWidgets.QWidget): The form widget to update the text for.
+        """
         _translate = QtCore.QCoreApplication.translate
         form.setWindowTitle(_translate("form", "form"))
         self.pushButton.setText(_translate("form", "Capture Image"))
