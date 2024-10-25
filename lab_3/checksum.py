@@ -20,17 +20,35 @@ PATTERN = {
 
 
 def detect_encoding(file_path: str) -> str:
+    """
+    Определяет кодировку файла с помощью библиотеки chardet.
+
+    :param file_path: Путь к CSV файлу.
+    :return: Кодировка файла в виде строки.
+    """
     with open(file_path, 'rb') as file:
         raw_data = file.read(10000)
         return chardet.detect(raw_data)['encoding']
 
 
 def validate_row(row: dict) -> dict:
+    """
+    Проверяет строки на соответствие регулярным выражениям.
+
+    :param row: Словарь, представляющий строку CSV.
+    :return: Словарь с недопустимыми значениями и их ключами.
+    """
     invalid_data = {key: row[key] for key, pattern in PATTERN.items() if not re.match(pattern, row.get(key, "").strip('"'))}
     return invalid_data
 
 
 def parse_csv(file_path: str) -> tuple:
+    """
+    Парсит CSV файл и возвращает недопустимые строки и их номера.
+
+    :param file_path: Путь к CSV файлу.
+    :return: Кортеж из списка недопустимых строк и списка их номеров.
+    """
     encoding = detect_encoding(file_path)
     invalid_rows = []
     invalid_row_numbers = []
