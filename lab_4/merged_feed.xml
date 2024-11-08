@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>www.shz.de</id>
+  <title>Lokale Nachrichten</title>
+  <updated>2024-11-08T17:34:55.211233+00:00</updated>
+  <link href="https://shz.de" rel="alternate"/>
+  <generator uri="https://lkiesow.github.io/python-feedgen" version="1.0.0">python-feedgen</generator>
+  <subtitle>Lokale Nachrichten aus dem Norden</subtitle>
+</feed>

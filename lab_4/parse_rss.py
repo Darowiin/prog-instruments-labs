@@ -6,6 +6,13 @@ import os
 from bs4 import BeautifulSoup
 import requests
 import minify_html
+import logging
+
+logging.basicConfig(level=logging.INFO,
+                    filename="file.log",
+                    filemode="a",
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 headers = {
     "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
@@ -15,101 +22,102 @@ def remove_elements(soup, elements_to_remove):
     for element in elements_to_remove:
         for tag in soup.find_all(element):
             tag.decompose()
+    logger.info(f"Removed elements: {', '.join(elements_to_remove)}")
 
 def get_clean_version(url):
-    response = requests.get(url, headers=headers)
-    html_content = response.text
+    logger.info(f"Fetching page: {url}")
+    try:
+        response = requests.get(url, headers=headers)
+        html_content = response.text
+        logger.info("Page fetched successfully")
+        
+        # Locate the relevant content
+        start_comment = "<!-- start content-stage -->"
+        end_comment = "<!-- start social bar -->"
+        start_pos = html_content.find(start_comment)
+        end_pos = html_content.find(end_comment)
 
-    # Find the start and end positions of the comments
-    start_comment = "<!-- start content-stage -->"
-    end_comment = "<!-- start social bar -->"
-    start_pos = html_content.find(start_comment)
-    end_pos = html_content.find(end_comment)
+        if start_pos == -1 or end_pos == -1:
+            logger.warning("Could not find comments to extract content")
+            return ""
 
-    # Extract the middle part between the comments
-    middle_part = html_content[start_pos + len(start_comment):end_pos].strip()
+        middle_part = html_content[start_pos + len(start_comment):end_pos].strip()
+        soup = BeautifulSoup(middle_part, "html.parser")
 
-    # Parse the middle part using BeautifulSoup
-    soup = BeautifulSoup(middle_part, "html.parser")
+        # Elements to remove
+        elements_to_remove = ['svg', 'button', 'input', 'script']
+        remove_elements(soup, elements_to_remove)
 
-    # Elements to remove
-    elements_to_remove = ['svg', 'button', 'input', 'script']
-    remove_elements(soup, elements_to_remove)
+        # Remove div elements with class "related-content"
+        for div in soup.find_all('div', class_='related-content'):
+            div.decompose()
+        logger.info("Removed 'related-content' div elements")
 
-    # Remove all divs with the class "related-content"
-    for div in soup.find_all('div', class_='related-content'):
-        div.decompose()
-    # Minify html
-    minified_html = minify_html.minify(str(soup))
-    return minified_html
+        minified_html = minify_html.minify(str(soup))
+        logger.info("HTML content cleaned and minified successfully")
+        return minified_html
+    except Exception as e:
+        logger.error(f"Error processing page {url}: {e}")
+        return ""
 
-
-# URLs to request feeds from
+# URLs to request RSS feeds from
 rss_feed_urls = [
-'https://www.shz.de/lokales/schleswig/rss',
-'https://www.shz.de/lokales/gluecksburg-angeln/rss',
-'https://www.shz.de/lokales/flensburg/rss',
-'https://www.shz.de/deutschland-welt/schleswig-holstein/rss'
+    'https://www.shz.de/lokales/schleswig/rss',
+    'https://www.shz.de/lokales/gluecksburg-angeln/rss',
+    'https://www.shz.de/lokales/flensburg/rss',
+    'https://www.shz.de/deutschland-welt/schleswig-holstein/rss'
 ]
 
-# Get List of IDs already inside the merged feed file
-# now = datetime.now().strftime("%I:%M%p on %B %d, %Y")
-feed_file = os.path.join(os.getcwd(), 'merged_feed.xml')
-# with open(feed_file) as file:
-#     merge_feed_string = file.read()
-
-# already_inside_ids = []
-# existing_feed = feedparser.parse(merge_feed_string)
-# for entry in existing_feed.entries:
-#     already_inside_ids.append(entry.get('id'))
-
-# Get list of entries that are not already inside feed file and no dublicats from feed urls
 def get_unique_entries(feeds):
     unique_entries = {}
     for feed_url in feeds:
+        logger.info(f"Fetching RSS feed: {feed_url}")
         feed = feedparser.parse(feed_url)
         for entry in feed.entries:
             entry_id = entry.get('id')
-            # if entry_id not in already_inside_ids:
             if entry_id not in unique_entries:
                 unique_entries[entry_id] = entry
+            else:
+                logger.info(f"Duplicate entry with ID {entry_id} found, skipping entry")
+    logger.info("Unique entries retrieved")
     return list(unique_entries.values())
 
-# Get sorted list of entries to append to file
 def merge_rss_feeds(feed_urls):
+    logger.info("Starting RSS feeds merge")
     unique_entries = get_unique_entries(feed_urls)
     sorted_entries = sorted(unique_entries, key=lambda entry: entry.published_parsed, reverse=True)
+    logger.info("RSS feeds merged and sorted successfully")
     return sorted_entries
 
-
-
+# Retrieve merged entries
 merged_entries = merge_rss_feeds(rss_feed_urls)
 
+# Set up the RSS feed generator
 fg = FeedGenerator()
 fg.id('www.shz.de')
 fg.title('Lokale Nachrichten')
 fg.link(href='https://shz.de', rel='alternate')
 fg.description('Lokale Nachrichten aus dem Norden')
-
-# Add existing entries
-# for entry in existing_feed.entries:
-#     fe = fg.add_entry()
-#     fe.id(entry.id)
-#     fe.title(entry.title)
-#     fe.link(href=entry.link)
-#     fe.content(entry.content[0].value)
-#     published_date = datetime(*entry.published_parsed[:6], tzinfo=pytz.timezone('Europe/Berlin'))
-#     fe.pubDate(published_date)
+logger.info("FeedGenerator object for RSS feed created")
 
 # Add new entries
 for entry in merged_entries:
-    fe = fg.add_entry()
-    fe.id(entry.id)
-    fe.title(entry.title)
-    fe.link(href=entry.link)
-    fe.content(content=get_clean_version(entry.link), type="html")
-    published_date = datetime(*entry.published_parsed[:6], tzinfo=pytz.timezone('Europe/Berlin'))
-    fe.pubDate(published_date)
+    try:
+        fe = fg.add_entry()
+        fe.id(entry.id)
+        fe.title(entry.title)
+        fe.link(href=entry.link)
+        fe.content(content=get_clean_version(entry.link), type="html")
+        published_date = datetime(*entry.published_parsed[:6], tzinfo=pytz.timezone('Europe/Berlin'))
+        fe.pubDate(published_date)
+        logger.info(f"Entry with ID {entry.id} added")
+    except Exception as e:
+        logger.error(f"Error adding entry with ID {entry.id}: {e}")
 
-# Save the feed to a file
-fg.atom_file(feed_file, pretty=True)
+# Save the RSS feed to a file
+feed_file = os.path.join(os.getcwd(), 'merged_feed.xml')
+try:
+    fg.atom_file(feed_file, pretty=True)
+    logger.info(f"RSS feed file saved successfully at: {feed_file}")
+except Exception as e:
+    logger.error(f"Error saving RSS feed file: {e}")
