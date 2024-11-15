@@ -22,10 +22,10 @@ def remove_elements(soup, elements_to_remove):
     for element in elements_to_remove:
         for tag in soup.find_all(element):
             tag.decompose()
-    logger.info(f"Removed elements: {', '.join(elements_to_remove)}")
+    logger.info("Removed elements: %s", ', '.join(elements_to_remove))
 
 def get_clean_version(url):
-    logger.info(f"Fetching page: {url}")
+    logger.info("Fetching page: %s", url)
     try:
         response = requests.get(url, headers=headers)
         html_content = response.text
@@ -57,7 +57,7 @@ def get_clean_version(url):
         logger.info("HTML content cleaned and minified successfully")
         return minified_html
     except Exception as e:
-        logger.error(f"Error processing page {url}: {e}")
+        logger.error("Error processing page %s: %s", url, e)
         return ""
 
 # URLs to request RSS feeds from
@@ -71,14 +71,14 @@ rss_feed_urls = [
 def get_unique_entries(feeds):
     unique_entries = {}
     for feed_url in feeds:
-        logger.info(f"Fetching RSS feed: {feed_url}")
+        logger.info("Fetching RSS feed: %s", feed_url)
         feed = feedparser.parse(feed_url)
         for entry in feed.entries:
             entry_id = entry.get('id')
             if entry_id not in unique_entries:
                 unique_entries[entry_id] = entry
             else:
-                logger.info(f"Duplicate entry with ID {entry_id} found, skipping entry")
+                logger.info("Duplicate entry with ID %s found, skipping entry", entry_id)
     logger.info("Unique entries retrieved")
     return list(unique_entries.values())
 
@@ -110,14 +110,14 @@ for entry in merged_entries:
         fe.content(content=get_clean_version(entry.link), type="html")
         published_date = datetime(*entry.published_parsed[:6], tzinfo=pytz.timezone('Europe/Berlin'))
         fe.pubDate(published_date)
-        logger.info(f"Entry with ID {entry.id} added")
+        logger.info("Entry with ID %s added", entry.id)
     except Exception as e:
-        logger.error(f"Error adding entry with ID {entry.id}: {e}")
+        logger.error("Error adding entry with ID %s: %s", entry.id, e)
 
 # Save the RSS feed to a file
 feed_file = os.path.join(os.getcwd(), 'merged_feed.xml')
 try:
     fg.atom_file(feed_file, pretty=True)
-    logger.info(f"RSS feed file saved successfully at: {feed_file}")
+    logger.info("RSS feed file saved successfully at: %s", feed_file)
 except Exception as e:
-    logger.error(f"Error saving RSS feed file: {e}")
+    logger.error("Error saving RSS feed file: %s", e)
