@@ -46,9 +46,11 @@ class TestHybridEncryption:
         """
         setup_hybrid.generate_keys()
 
-        assert os.path.exists(setup_hybrid.symmetric_key_path), "Symmetric key file not found"
-        assert os.path.exists(setup_hybrid.asymmetric_crypto.private_key_path), "Private key file not found"
-        assert os.path.exists(setup_hybrid.asymmetric_crypto.public_key_path), "Public key file not found"
+        expected_symmetric_key_path = f"{setup_hybrid.symmetric_key_path[:-4]}_{setup_hybrid.symmetric_crypto.key_len}.txt"
+
+        assert os.path.exists(expected_symmetric_key_path), f"Symmetric key file not found at {expected_symmetric_key_path}"
+        assert os.path.exists(setup_hybrid.asymmetric_crypto.private_key_path), f"Private key file not found at {setup_hybrid.asymmetric_crypto.private_key_path}"
+        assert os.path.exists(setup_hybrid.asymmetric_crypto.public_key_path), f"Public key file not found at {setup_hybrid.asymmetric_crypto.public_key_path}"
 
     def test_encrypt_decrypt_text(self, setup_hybrid: HybridEncryption) -> None:
         """
