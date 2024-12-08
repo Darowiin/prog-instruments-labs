@@ -1,8 +1,7 @@
 import argparse
 import pytest
 from unittest.mock import patch, MagicMock
-from main import parse_arguments, create_hybrid_encryption, run_mode
-
+from main import parse_arguments, create_hybrid_encryption, run_mode, main
 
 def test_parse_arguments_generation_mode():
     with patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
@@ -82,3 +81,24 @@ def test_run_mode(mock_decrypt, mock_encrypt, mock_generate):
     run_mode(hybrid_encryption, args)
     mock_encrypt.assert_called_once()
     mock_decrypt.assert_called_once()
+    
+@patch('main.parse_arguments')
+@patch('main.create_hybrid_encryption')
+@patch('main.run_mode')
+def test_main(mock_run_mode, mock_create_hybrid_encryption, mock_parse_arguments):
+    mock_parse_arguments.return_value = argparse.Namespace(
+        generation=True, encryption=False, decryption=False,
+        key_length=256, text_file="text.txt",
+        public_key="public.pem", private_key="private.pem",
+        symmetric_key_file="symmetric.txt",
+        encrypted_text_file="encrypted.txt",
+        decrypted_text_file="decrypted.txt",
+    )
+
+    main()
+
+    mock_parse_arguments.assert_called_once()
+
+    mock_create_hybrid_encryption.assert_called_once_with(mock_parse_arguments.return_value)
+
+    mock_run_mode.assert_called_once_with(mock_create_hybrid_encryption.return_value, mock_parse_arguments.return_value)

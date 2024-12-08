@@ -94,7 +94,3 @@ def main():
     args = parse_arguments()
     hybrid_encryption = create_hybrid_encryption(args)
     run_mode(hybrid_encryption, args)
-
-
-if __name__ == "__main__":
-    main()
