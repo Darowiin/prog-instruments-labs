@@ -1,8 +1,16 @@
+"""
+Unit tests for utility functions used in cryptographic operations.
+"""
+
 import pytest
 from CryptoUtility import CryptoUtility
+from pathlib import Path
 
 class TestCryptoUtility:
-    def test_serialize_and_deserialize_key(self, tmp_path):
+    def test_serialize_and_deserialize_key(self, tmp_path: Path) -> None:
+        """
+        Test the serialization and deserialization of a cryptographic key.
+        """
         key = b"SampleKeyData123456"
         key_path = tmp_path / "key.txt"
 
@@ -10,8 +18,11 @@ class TestCryptoUtility:
         deserialized_key = CryptoUtility.deserialize_key(str(key_path))
 
         assert deserialized_key == key  # Ensure key matches after deserialization
-    
-    def test_read_and_write_text_file(self, tmp_path):
+
+    def test_read_and_write_text_file(self, tmp_path: Path) -> None:
+        """
+        Test writing and reading of a text file.
+        """
         text_path = tmp_path / "text.txt"
         content = "Test content for text file"
 

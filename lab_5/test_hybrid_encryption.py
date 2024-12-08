@@ -1,14 +1,22 @@
+"""
+Unit tests for the HybridEncryption class.
+"""
+
 import pytest
 import os
 from unittest.mock import patch, MagicMock
+from pathlib import Path
 from HybridEncryption import HybridEncryption
 from SymmetricCryptography import SymmetricCryptography
 from AsymmetricCryptography import AsymmetricCryptography
-from CryptoUtility import CryptoUtility
+
 
 class TestHybridEncryption:
     @pytest.fixture
-    def setup_hybrid(self, tmp_path):
+    def setup_hybrid(self, tmp_path: Path) -> HybridEncryption:
+        """
+        Fixture to provide an instance of HybridEncryption with temporary paths.
+        """
         text_path = tmp_path / "text.txt"
         symmetric_key_path = tmp_path / "symmetric.txt"
         encrypted_text_path = tmp_path / "encrypted_text.txt"
@@ -32,19 +40,17 @@ class TestHybridEncryption:
             asymmetric_crypto,
         )
 
-    def test_generate_keys(self, setup_hybrid):
+    def test_generate_keys(self, setup_hybrid: HybridEncryption) -> None:
         """
         Test that keys are generated and the symmetric key file is created.
         """
         setup_hybrid.generate_keys()
 
-        expected_symmetric_key_path = f"{setup_hybrid.symmetric_key_path[:-4]}_{setup_hybrid.symmetric_crypto.key_len}.txt"
+        assert os.path.exists(setup_hybrid.symmetric_key_path), "Symmetric key file not found"
+        assert os.path.exists(setup_hybrid.asymmetric_crypto.private_key_path), "Private key file not found"
+        assert os.path.exists(setup_hybrid.asymmetric_crypto.public_key_path), "Public key file not found"
 
-        assert os.path.exists(expected_symmetric_key_path), f"Symmetric key file not found at {expected_symmetric_key_path}"
-        assert os.path.exists(setup_hybrid.asymmetric_crypto.private_key_path), f"Private key file not found at {setup_hybrid.asymmetric_crypto.private_key_path}"
-        assert os.path.exists(setup_hybrid.asymmetric_crypto.public_key_path), f"Public key file not found at {setup_hybrid.asymmetric_crypto.public_key_path}"
-    
-    def test_encrypt_decrypt_text(self, setup_hybrid):
+    def test_encrypt_decrypt_text(self, setup_hybrid: HybridEncryption) -> None:
         """
         Test encryption and decryption functionality.
         """
@@ -60,7 +66,7 @@ class TestHybridEncryption:
 
         assert decrypted_text == original_text
 
-    def test_generate_keys_exception(self, setup_hybrid):
+    def test_generate_keys_exception(self, setup_hybrid: HybridEncryption) -> None:
         """
         Test exception handling during key generation.
         """
@@ -69,7 +75,7 @@ class TestHybridEncryption:
                 setup_hybrid.generate_keys()
                 mock_logging_error.assert_called_once_with("An error occurred while generating the keys: Test Exception")
 
-    def test_encrypt_text_exception(self, setup_hybrid):
+    def test_encrypt_text_exception(self, setup_hybrid: HybridEncryption) -> None:
         """
         Test exception handling during text encryption.
         """
@@ -78,7 +84,7 @@ class TestHybridEncryption:
                 setup_hybrid.encrypt_text()
                 mock_logging_error.assert_called_once_with("An error occurred while encrypting the text: Test Exception")
 
-    def test_decrypt_text_exception(self, setup_hybrid):
+    def test_decrypt_text_exception(self, setup_hybrid: HybridEncryption) -> None:
         """
         Test exception handling during text decryption.
         """

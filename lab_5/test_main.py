@@ -1,9 +1,16 @@
+"""
+Unit tests for the main functionality of the encryption application.
+"""
+
 import argparse
 import pytest
 from unittest.mock import patch, MagicMock
 from main import parse_arguments, create_hybrid_encryption, run_mode, main
 
-def test_parse_arguments_generation_mode():
+def test_parse_arguments_generation_mode() -> None:
+    """
+    Test the argument parsing for generation mode.
+    """
     with patch("argparse.ArgumentParser.parse_args", return_value=argparse.Namespace(
         generation=True, encryption=False, decryption=False,
         key_length=256, text_file="text.txt",
@@ -21,7 +28,10 @@ def test_parse_arguments_generation_mode():
 @patch("main.HybridEncryption")
 @patch("main.SymmetricCryptography")
 @patch("main.AsymmetricCryptography")
-def test_create_hybrid_encryption(mock_asymmetric_class, mock_symmetric_class, mock_hybrid_class):
+def test_create_hybrid_encryption(mock_asymmetric_class: MagicMock, mock_symmetric_class: MagicMock, mock_hybrid_class: MagicMock) -> None:
+    """
+    Test the creation of the hybrid encryption system.
+    """
     args = argparse.Namespace(
         text_file="text.txt",
         symmetric_key_file="symmetric.txt",
@@ -54,7 +64,10 @@ def test_create_hybrid_encryption(mock_asymmetric_class, mock_symmetric_class, m
 @patch("HybridEncryption.HybridEncryption.generate_keys")
 @patch("HybridEncryption.HybridEncryption.encrypt_text")
 @patch("HybridEncryption.HybridEncryption.decrypt_text")
-def test_run_mode(mock_decrypt, mock_encrypt, mock_generate):
+def test_run_mode(mock_decrypt: MagicMock, mock_encrypt: MagicMock, mock_generate: MagicMock) -> None:
+    """
+    Test the run mode functionality for all supported modes.
+    """
     args = argparse.Namespace(
         generation=True, encryption=False, decryption=False,
         key_length=256, text_file="text.txt",
@@ -69,23 +82,27 @@ def test_run_mode(mock_decrypt, mock_encrypt, mock_generate):
     mock_generate.assert_called_once()
     mock_encrypt.assert_not_called()
     mock_decrypt.assert_not_called()
-    
+
     args.generation = False
     args.encryption = True
     run_mode(hybrid_encryption, args)
     mock_encrypt.assert_called_once()
     mock_decrypt.assert_not_called()
-    
+
     args.encryption = False
     args.decryption = True
     run_mode(hybrid_encryption, args)
     mock_encrypt.assert_called_once()
     mock_decrypt.assert_called_once()
-    
+
+
 @patch('main.parse_arguments')
 @patch('main.create_hybrid_encryption')
 @patch('main.run_mode')
-def test_main(mock_run_mode, mock_create_hybrid_encryption, mock_parse_arguments):
+def test_main(mock_run_mode: MagicMock, mock_create_hybrid_encryption: MagicMock, mock_parse_arguments: MagicMock) -> None:
+    """
+    Test the main function for correct orchestration of other components.
+    """
     mock_parse_arguments.return_value = argparse.Namespace(
         generation=True, encryption=False, decryption=False,
         key_length=256, text_file="text.txt",
@@ -98,7 +115,5 @@ def test_main(mock_run_mode, mock_create_hybrid_encryption, mock_parse_arguments
     main()
 
     mock_parse_arguments.assert_called_once()
-
     mock_create_hybrid_encryption.assert_called_once_with(mock_parse_arguments.return_value)
-
     mock_run_mode.assert_called_once_with(mock_create_hybrid_encryption.return_value, mock_parse_arguments.return_value)
